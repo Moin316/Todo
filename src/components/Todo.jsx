@@ -33,6 +33,19 @@ const Todo = () => {
   const HandleClear = () => {
     setTasks([]);
   };
+  const handleCheck=(data)=>{
+    
+    const updated=tasks.map((task)=>{
+       if(task.content===data){
+        return {...task,checked: !task.checked}
+       }
+       else{
+        return task;
+       }
+      }
+    )
+    setTasks(updated);
+  }
 
   // Update dateTime every second
   useEffect(() => {
@@ -61,6 +74,8 @@ const Todo = () => {
               key={task.id} // Unique key for each task
               data={task.content} // Passing the entire task object
               HandleDelete={HandleDelete} // Delete handler
+              checked={task.checked}
+              onHandleChecked={handleCheck}
             />
           ))}
         </ul>
