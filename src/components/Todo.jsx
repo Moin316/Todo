@@ -4,9 +4,14 @@ import Todoform from "./Todoform";
 import TodoList from "./TodoList";
 
 const Todo = () => {
-  const [tasks, setTasks] = useState([]); // Change from "" to [] to hold task array
+  const [tasks, setTasks] = useState(()=>{
+    const rawTodos = localStorage.getItem("tasks");
+    if(!rawTodos) return [];
+    return JSON.parse(rawTodos);
+  });
   const [dateTime, setDateTime] = useState("");
 
+  
   // Handle adding a new task
   const HandleSubmit = (inputValue) => {
     const { id, content, checked } = inputValue;
@@ -33,6 +38,7 @@ const Todo = () => {
   const HandleClear = () => {
     setTasks([]);
   };
+  localStorage.setItem('tasks',JSON.stringify(tasks));
   const handleCheck=(data)=>{
     
     const updated=tasks.map((task)=>{
@@ -46,7 +52,6 @@ const Todo = () => {
     )
     setTasks(updated);
   }
-
   // Update dateTime every second
   useEffect(() => {
     const interval = setInterval(() => {
